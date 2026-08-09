@@ -4,6 +4,8 @@
   "myHabits": "My Habits",
   "export": "Export",
   "exportFailed": "Export failed",
+  "expandCalendar": "Expand",
+  "collapseCalendar": "Collapse",
 
   "selectLanguage": "Select Language",
   "languageUpdated": "Language updated",

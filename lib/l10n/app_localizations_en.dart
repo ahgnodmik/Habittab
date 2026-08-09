@@ -18,6 +18,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportFailed => 'Export failed';
 
   @override
+  String get expandCalendar => 'Expand';
+
+  @override
+  String get collapseCalendar => 'Collapse';
+
+  @override
   String get selectLanguage => 'Select Language';
 
   @override

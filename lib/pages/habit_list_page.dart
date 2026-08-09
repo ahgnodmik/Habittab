@@ -842,23 +842,56 @@ class _HabitListPageState extends State<HabitListPage>
   }
 
   /// Collapse/expand handle under the calendar. Toggles between the full
-  /// month view and a compact single-week view.
+  /// month view and a compact single-week view. Large full-width tap target.
   Widget _buildCalendarHandle() {
+    final l10n = context.l10n;
     final expanded = _calendarFormat == CalendarFormat.month;
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _calendarFormat =
-              expanded ? CalendarFormat.week : CalendarFormat.month;
-        });
-      },
-      child: SizedBox(
-        height: 24,
-        child: Center(
-          child: Icon(
-            expanded ? Icons.expand_less : Icons.expand_more,
-            color: kPointColor,
-            size: 22,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            _calendarFormat =
+                expanded ? CalendarFormat.week : CalendarFormat.month;
+          });
+        },
+        child: Container(
+          height: 48,
+          width: double.infinity,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: kPointColor.withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    expanded ? Icons.expand_less : Icons.expand_more,
+                    color: kPointColor,
+                    size: 22,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    expanded ? l10n.collapseCalendar : l10n.expandCalendar,
+                    style: TextStyle(
+                      color: kPointColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

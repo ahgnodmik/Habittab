@@ -18,6 +18,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get exportFailed => '내보내기 실패';
 
   @override
+  String get expandCalendar => '펼치기';
+
+  @override
+  String get collapseCalendar => '접기';
+
+  @override
   String get selectLanguage => '언어 선택';
 
   @override

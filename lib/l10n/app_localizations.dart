@@ -116,6 +116,18 @@ abstract class AppLocalizations {
   /// **'Export failed'**
   String get exportFailed;
 
+  /// No description provided for @expandCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get expandCalendar;
+
+  /// No description provided for @collapseCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get collapseCalendar;
+
   /// No description provided for @selectLanguage.
   ///
   /// In en, this message translates to:

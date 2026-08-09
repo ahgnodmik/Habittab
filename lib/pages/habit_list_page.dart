@@ -850,7 +850,7 @@ class _HabitListPageState extends State<HabitListPage>
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Material(
-        color: kPointColor.withValues(alpha: 0.08),
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),

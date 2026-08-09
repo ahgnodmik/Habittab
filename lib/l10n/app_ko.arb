@@ -1,0 +1,91 @@
+{
+  "@@locale": "ko",
+
+  "myHabits": "내 습관",
+  "export": "내보내기",
+
+  "selectLanguage": "언어 선택",
+  "languageUpdated": "언어가 변경되었습니다",
+
+  "selectTheme": "테마 선택",
+  "lightMode": "라이트 모드",
+  "darkMode": "다크 모드",
+  "themeUpdated": "테마가 변경되었습니다",
+
+  "userGuide": "사용설명서",
+  "userGuideContent": "1) 습관을 탭하여 체크/해제합니다.\n2) 날짜 선택으로 다른 날짜 기록을 확인/수정합니다.\n3) 드로어 → 와이드 체크에서 월별 표시를 봅니다.\n4) 내보내기를 눌러 CSV를 문서 폴더에 저장합니다.",
+
+  "appInfoDescription": "심플한 습관 체크 앱.",
+
+  "addHabit": "습관 추가",
+  "habitName": "습관 이름",
+  "color": "색상",
+  "add": "추가",
+  "cancel": "취소",
+  "close": "닫기",
+  "save": "저장",
+  "delete": "삭제",
+  "ok": "확인",
+
+  "selectHabitToEdit": "편집할 습관 선택",
+  "noHabitsToEdit": "편집할 습관이 없습니다",
+
+  "uncheckHabit": "체크 해제",
+  "checkHabit": "체크하기",
+  "editHabit": "습관 편집",
+  "editHabitTitle": "습관 편집",
+  "deleteHabit": "습관 삭제",
+  "deleteHabitTitle": "습관 삭제",
+  "deleteHabitConfirm": "이 습관을 삭제하시겠습니까?",
+  "details": "자세히 보기",
+  "comingSoon": "준비 중입니다",
+
+  "thisWeek": "이번 주 기록",
+  "thisWeekTitle": "이번 주 기록",
+
+  "changeLanguage": "언어 변경",
+  "changeTheme": "테마 변경",
+  "badges": "뱃지 보기",
+  "wideChecker": "와이드 체크",
+  "editHabits": "습관 편집하기",
+  "appInfo": "앱 정보",
+  "openSourceLicenses": "오픈소스 라이선스",
+
+  "ad": "광고",
+  "longPressTip": "Tip: 목록을 꾹 누르면 편집할 수 있어요",
+
+  "noHabitsYet": "습관이 없습니다",
+  "noBadgesYet": "아직 뱃지가 없습니다",
+  "weeklyBestTotal": "주간 최고: {best}일  ·  총: {total}",
+  "@weeklyBestTotal": {
+    "placeholders": {
+      "best": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "streakCount": "{count}일",
+  "@streakCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "badgeDay1Title": "Day 1",
+  "badgeDay1Subtitle": "첫 시작",
+  "badge3DaysTitle": "3 Days",
+  "badge3DaysSubtitle": "연속 3일",
+  "badge7DaysTitle": "7 Days",
+  "badge7DaysSubtitle": "1주 연속",
+  "badge14DaysTitle": "14 Days",
+  "badge14DaysSubtitle": "2주 연속",
+  "badge30DaysTitle": "30 Days",
+  "badge30DaysSubtitle": "한 달 연속",
+  "badge60DaysTitle": "60 Days",
+  "badge60DaysSubtitle": "두 달 연속",
+  "badge90DaysTitle": "90 Days",
+  "badge90DaysSubtitle": "세 달 연속",
+  "badge180DaysTitle": "180 Days",
+  "badge180DaysSubtitle": "반 년 연속",
+  "badge365DaysTitle": "365 Days",
+  "badge365DaysSubtitle": "1년 연속"
+}

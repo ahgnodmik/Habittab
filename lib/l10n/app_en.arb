@@ -1,0 +1,91 @@
+{
+  "@@locale": "en",
+
+  "myHabits": "My Habits",
+  "export": "Export",
+
+  "selectLanguage": "Select Language",
+  "languageUpdated": "Language updated",
+
+  "selectTheme": "Select Theme",
+  "lightMode": "Light Mode",
+  "darkMode": "Dark Mode",
+  "themeUpdated": "Theme updated",
+
+  "userGuide": "User Guide",
+  "userGuideContent": "1) Tap a habit to toggle check.\n2) Pick a date to view/edit other days.\n3) Drawer → Wide Checker to view monthly marks.\n4) Export to save CSV in documents.",
+
+  "appInfoDescription": "A simple habit tracker.",
+
+  "addHabit": "Add Habit",
+  "habitName": "Habit name",
+  "color": "Color",
+  "add": "Add",
+  "cancel": "Cancel",
+  "close": "Close",
+  "save": "Save",
+  "delete": "Delete",
+  "ok": "OK",
+
+  "selectHabitToEdit": "Select Habit to Edit",
+  "noHabitsToEdit": "No habits to edit",
+
+  "uncheckHabit": "Uncheck habit",
+  "checkHabit": "Check habit",
+  "editHabit": "Edit habit",
+  "editHabitTitle": "Edit Habit",
+  "deleteHabit": "Delete habit",
+  "deleteHabitTitle": "Delete Habit",
+  "deleteHabitConfirm": "Are you sure you want to delete this habit?",
+  "details": "Details",
+  "comingSoon": "Coming soon",
+
+  "thisWeek": "This week",
+  "thisWeekTitle": "This Week",
+
+  "changeLanguage": "Change Language",
+  "changeTheme": "Change Theme",
+  "badges": "Badges",
+  "wideChecker": "Wide Checker",
+  "editHabits": "Edit Habits",
+  "appInfo": "App Info",
+  "openSourceLicenses": "Open-source Licenses",
+
+  "ad": "Ad",
+  "longPressTip": "Tip: Long-press an item to edit",
+
+  "noHabitsYet": "No habits yet",
+  "noBadgesYet": "No badges yet",
+  "weeklyBestTotal": "Weekly best: {best}d  ·  Total: {total}",
+  "@weeklyBestTotal": {
+    "placeholders": {
+      "best": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "streakCount": "{count}d",
+  "@streakCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "badgeDay1Title": "Day 1",
+  "badgeDay1Subtitle": "First step",
+  "badge3DaysTitle": "3 Days",
+  "badge3DaysSubtitle": "3-day streak",
+  "badge7DaysTitle": "7 Days",
+  "badge7DaysSubtitle": "1-week streak",
+  "badge14DaysTitle": "14 Days",
+  "badge14DaysSubtitle": "2-week streak",
+  "badge30DaysTitle": "30 Days",
+  "badge30DaysSubtitle": "1-month streak",
+  "badge60DaysTitle": "60 Days",
+  "badge60DaysSubtitle": "2-month streak",
+  "badge90DaysTitle": "90 Days",
+  "badge90DaysSubtitle": "3-month streak",
+  "badge180DaysTitle": "180 Days",
+  "badge180DaysSubtitle": "6-month streak",
+  "badge365DaysTitle": "365 Days",
+  "badge365DaysSubtitle": "1-year streak"
+}

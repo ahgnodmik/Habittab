@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="110dp"
+    android:maxWidth="400dp"
+    android:maxHeight="150dp"
+    android:updatePeriodMillis="1800000"
+    android:initialLayout="@layout/home_widget_layout"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen" />
+<!--
+1x4 행 습관 위젯 - 최대 4개 습관을 한 줄에 표시
+각 habit 버튼에 인텐트 연결은 Flutter에서 HomeWidget.configureWidget()으로 동적으로 처리됨.
+--> 

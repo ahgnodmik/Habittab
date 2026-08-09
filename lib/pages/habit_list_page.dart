@@ -1106,6 +1106,10 @@ class _HabitListPageState extends State<HabitListPage>
                     CalendarFormat.month: 'Month',
                     CalendarFormat.week: 'Week',
                   },
+                  // Only horizontal (month/week paging) swipes. The default
+                  // vertical-swipe format gesture overlaps the collapse handle
+                  // in week view and would swallow taps meant to expand.
+                  availableGestures: AvailableGestures.horizontalSwipe,
                   onFormatChanged: (format) {
                     setState(() => _calendarFormat = format);
                   },

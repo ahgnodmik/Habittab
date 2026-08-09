@@ -1278,50 +1278,31 @@ class _HabitListPageState extends State<HabitListPage>
                     ),
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.all(4),
-                        child:
-                            _isBannerAdReady && _adWidget != null
-                                ? _adWidget!
-                                : Container(
-                                  height: 42,
-                                  decoration: BoxDecoration(
-                                    color: kPointColor.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(
-                                      color: kPointColor.withValues(alpha: 0.3),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      l10n.ad,
-                                      style: TextStyle(
-                                        color: kPointColor,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
+                child: Container(
+                  margin: const EdgeInsets.all(4),
+                  child:
+                      _isBannerAdReady && _adWidget != null
+                          ? _adWidget!
+                          : Container(
+                            height: 42,
+                            decoration: BoxDecoration(
+                              color: kPointColor.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: kPointColor.withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                l10n.ad,
+                                style: TextStyle(
+                                  color: kPointColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
                                 ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => setState(() => _showAdBanner = false),
-                      icon: Icon(
-                        Icons.close,
-                        color: Theme.of(context).iconTheme.color,
-                        size: 18,
-                      ),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(
-                        minWidth: 32,
-                        minHeight: 32,
-                      ),
-                    ),
-                  ],
+                              ),
+                            ),
+                          ),
                 ),
               ),
             ),

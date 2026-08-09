@@ -19,6 +19,9 @@
     hr {
       margin: 40px 0;
     }
+    a {
+      color: #1a73e8;
+    }
   </style>
 </head>
 <body>
@@ -27,78 +30,106 @@
   <h2>📌 한글 버전</h2>
 
   <h3>개인정보 처리방침</h3>
-  <p>본 개인정보 처리방침은 습관 관리 앱인 <strong>Habittab</strong>(개발자: 김동하)에 적용됩니다.</p>
+  <p>본 개인정보 처리방침은 습관 관리 앱인 <strong>Habittab</strong>(개발자: 김동하)에 적용됩니다. 본 방침은 앱이 실제로 처리하는 데이터를 기준으로 작성되었습니다.</p>
 
-  <h3>1. 수집하는 개인정보 항목</h3>
-  <p>Habittab 앱은 사용자의 개인정보를 직접 수집하지 않습니다. 앱 내에서 생성되는 습관 데이터는 기기 내부에만 저장되며, 외부 서버로 전송되지 않습니다.</p>
+  <h3>1. 앱이 직접 수집하는 정보</h3>
+  <p>Habittab은 회원가입·로그인 기능이 없으며, 사용자를 식별할 수 있는 개인정보(이름, 이메일, 계정 등)를 <strong>직접 수집하지 않습니다.</strong> 사용자가 입력한 습관 이름과 체크 기록은 기기 내부 저장소(SharedPreferences)에만 저장되며, 개발자 서버로 전송되지 않습니다.</p>
 
-  <h3>2. 개인정보의 수집 방법</h3>
-  <p>해당 앱은 별도의 회원가입, 로그인 기능이 없으며, 사용자가 입력한 습관 정보는 기기 내부 저장소에만 보관됩니다. 자동으로 개인정보를 수집하지 않습니다.</p>
+  <h3>2. 광고를 통한 제3자 데이터 수집 (Google AdMob)</h3>
+  <p>본 앱은 Google AdMob 배너 광고를 포함합니다. 광고 제공을 위해 Google 및 그 파트너는 다음과 같은 정보를 수집·처리할 수 있습니다.</p>
+  <ul>
+    <li>광고 식별자(Advertising ID)</li>
+    <li>IP 주소, 대략적 위치</li>
+    <li>기기 정보 및 광고 상호작용 데이터</li>
+  </ul>
+  <p>이 데이터는 개발자가 아닌 Google이 자체 정책에 따라 처리하며, 맞춤형 광고에 사용될 수 있습니다. 자세한 내용은 아래를 참고하십시오.</p>
+  <ul>
+    <li>Google 개인정보처리방침: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></li>
+    <li>Google 광고 정책: <a href="https://policies.google.com/technologies/ads">https://policies.google.com/technologies/ads</a></li>
+  </ul>
+  <p>사용자는 기기 설정의 "광고 ID 재설정/삭제" 및 "맞춤 광고 선택 해제" 기능으로 맞춤형 광고를 제한할 수 있습니다.</p>
 
-  <h3>3. 개인정보의 이용 목적</h3>
-  <p>개인정보를 수집하지 않으므로 별도의 이용 목적이 존재하지 않습니다. 습관 데이터는 오직 사용자의 습관 관리 목적으로만 사용됩니다.</p>
+  <h3>3. 네트워크 권한</h3>
+  <p>앱은 광고 로딩 목적으로만 인터넷 권한(INTERNET, ACCESS_NETWORK_STATE)을 사용합니다. 습관 데이터는 네트워크로 전송되지 않습니다.</p>
 
-  <h3>4. 개인정보의 보관 및 파기</h3>
-  <p>개인정보를 서버에 보관하지 않으며, 습관 데이터는 기기 내부에만 저장됩니다. 앱을 삭제하면 모든 데이터가 함께 삭제됩니다.</p>
+  <h3>4. 데이터 내보내기(공유) 기능</h3>
+  <p>사용자가 직접 "내보내기"를 실행하면 습관 기록이 CSV 파일로 생성되어 기기의 시스템 공유 시트를 통해 사용자가 선택한 대상(메일, 메신저, 파일 저장 등)으로 전송됩니다. 이 동작은 항상 사용자의 명시적 선택으로만 이루어지며, 전송 대상은 사용자가 결정합니다.</p>
 
-  <h3>5. 제3자 제공 및 외부 서비스</h3>
-  <p>당사는 사용자 정보를 제3자에게 제공하지 않습니다. 앱에는 Google AdMob 광고가 포함되어 있으나, 이는 익명의 광고 식별자만 사용하며 개인정보를 수집하지 않습니다.</p>
+  <h3>5. 홈 화면 위젯</h3>
+  <p>사용자가 위젯을 추가하면 습관 이름과 오늘의 체크 상태가 기기 홈 화면 위젯에 표시됩니다. 이 데이터는 기기 내부에만 존재합니다.</p>
 
-  <h3>6. 사용자의 권리</h3>
-  <p>사용자는 언제든지 앱을 삭제하여 사용을 중단할 수 있으며, 앱 삭제 시 모든 습관 데이터가 함께 삭제됩니다. 별도의 데이터 삭제 요청은 필요하지 않습니다.</p>
+  <h3>6. 데이터 보관 및 파기</h3>
+  <p>습관 데이터는 기기 내부 저장소에만 보관됩니다. 앱을 삭제하면 저장된 모든 습관 데이터가 함께 삭제됩니다. 별도의 삭제 요청 절차는 필요하지 않습니다. 광고 관련 데이터의 보관·파기는 Google 정책을 따릅니다.</p>
 
-  <h3>7. 개인정보 보호조치</h3>
-  <p>앱은 개인정보를 외부로 전송하지 않으므로 보안 리스크가 최소화됩니다. 습관 데이터는 기기 내부에만 암호화되어 저장되며, Google Play의 개인정보 보호 가이드를 준수합니다.</p>
+  <h3>7. 아동 개인정보</h3>
+  <p>본 앱은 아동을 주 대상으로 하지 않으며, 아동의 개인정보를 고의로 수집하지 않습니다.</p>
 
-  <h3>8. 개인정보 보호책임자 및 연락처</h3>
+  <h3>8. 사용자의 권리</h3>
+  <p>사용자는 언제든지 앱을 삭제하여 모든 습관 데이터를 삭제할 수 있으며, 기기 설정에서 광고 식별자를 재설정하거나 맞춤 광고를 해제할 수 있습니다.</p>
+
+  <h3>9. 개인정보 보호책임자 및 연락처</h3>
   <ul>
     <li>책임자: 김동하</li>
     <li>이메일: samdongpm@gmail.com</li>
   </ul>
 
-  <h3>9. 개인정보 처리방침 변경</h3>
-  <p>정책 변경 시 해당 웹페이지 또는 앱 업데이트 시 고지됩니다.</p>
+  <h3>10. 개인정보 처리방침 변경</h3>
+  <p>정책 변경 시 본 웹페이지 갱신 또는 앱 업데이트를 통해 고지합니다.</p>
 
-  <p><strong>시행일자:</strong> 2025년 9월 13일</p>
+  <p><strong>시행일자:</strong> 2026년 8월 9일</p>
 
   <hr />
 
   <h2>📌 English Version</h2>
 
   <h3>Privacy Policy</h3>
-  <p>This Privacy Policy applies to the habit tracking app <strong>Habittab</strong>, developed by Kim Dongha.</p>
+  <p>This Privacy Policy applies to the habit tracking app <strong>Habittab</strong>, developed by Kim Dongha. It reflects the data the app actually processes.</p>
 
-  <h3>1. Personal Data Collected</h3>
-  <p>The Habittab app does <strong>not collect any personal information</strong> from users. Habit data created within the app is stored only on the device and is not transmitted to external servers.</p>
+  <h3>1. Information the App Collects Directly</h3>
+  <p>Habittab has no sign-up or login and does <strong>not directly collect</strong> personally identifying information (name, email, account). Habit names and check records you enter are stored only in the device's internal storage (SharedPreferences) and are not sent to the developer's servers.</p>
 
-  <h3>2. Method of Data Collection</h3>
-  <p>The app does not include sign-up or login functionality. Habit information entered by users is stored only in the device's internal storage. No personal data is collected automatically.</p>
+  <h3>2. Third-Party Data Collection via Ads (Google AdMob)</h3>
+  <p>The app displays Google AdMob banner ads. To serve ads, Google and its partners may collect and process:</p>
+  <ul>
+    <li>Advertising ID</li>
+    <li>IP address and approximate location</li>
+    <li>Device information and ad interaction data</li>
+  </ul>
+  <p>This data is processed by Google (not the developer) under its own policies and may be used for personalized advertising. See:</p>
+  <ul>
+    <li>Google Privacy Policy: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a></li>
+    <li>Google Advertising: <a href="https://policies.google.com/technologies/ads">https://policies.google.com/technologies/ads</a></li>
+  </ul>
+  <p>You can limit personalized ads by resetting/deleting your Advertising ID and opting out of ad personalization in your device settings.</p>
 
-  <h3>3. Purpose of Data Use</h3>
-  <p>There is no specific purpose of personal data use as no personal data is collected. Habit data is used solely for the user's habit management purposes.</p>
+  <h3>3. Network Permissions</h3>
+  <p>The app uses internet permissions (INTERNET, ACCESS_NETWORK_STATE) solely to load ads. Habit data is not transmitted over the network.</p>
 
-  <h3>4. Data Storage and Disposal</h3>
-  <p>No personal data is stored on external servers. Habit data is stored only on the device's internal storage. When the app is deleted, all data is deleted together.</p>
+  <h3>4. Data Export (Share) Feature</h3>
+  <p>When you tap "Export," your habit records are written to a CSV file and sent through the device's system share sheet to a destination you choose (email, messaging, file storage, etc.). This only happens on your explicit action, and you decide the destination.</p>
 
-  <h3>5. Third-Party Sharing and Services</h3>
-  <p>The app does not share user information with any third party. The app includes Google AdMob advertisements, which use only anonymous advertising identifiers and do not collect personal information.</p>
+  <h3>5. Home Screen Widget</h3>
+  <p>If you add the widget, your habit names and today's check status are shown on the device home screen widget. This data stays on the device.</p>
 
-  <h3>6. User Rights</h3>
-  <p>Users may delete the app at any time to stop its use. When the app is deleted, all habit data is deleted together. There is no need to request separate data deletion.</p>
+  <h3>6. Data Storage and Disposal</h3>
+  <p>Habit data is stored only in the device's internal storage. Deleting the app deletes all stored habit data. No separate deletion request is required. Retention and disposal of ad-related data follow Google's policies.</p>
 
-  <h3>7. Data Protection Measures</h3>
-  <p>Since the app does not transmit personal data externally, security risks are minimized. Habit data is stored encrypted only on the device's internal storage and complies with Google Play's privacy protection guidelines.</p>
+  <h3>7. Children's Privacy</h3>
+  <p>The app is not directed to children and does not knowingly collect children's personal information.</p>
 
-  <h3>8. Data Controller Contact Information</h3>
+  <h3>8. Your Rights</h3>
+  <p>You may delete the app at any time to remove all habit data, and you may reset your Advertising ID or opt out of personalized ads in your device settings.</p>
+
+  <h3>9. Data Controller Contact Information</h3>
   <ul>
     <li>Controller: Kim Dongha</li>
     <li>Email: samdongpm@gmail.com</li>
   </ul>
 
-  <h3>9. Changes to This Policy</h3>
-  <p>Any changes to this policy will be notified via this web page or through an app update.</p>
+  <h3>10. Changes to This Policy</h3>
+  <p>Any changes will be notified via this web page or through an app update.</p>
 
-  <p><strong>Effective Date:</strong> September 13, 2025</p>
+  <p><strong>Effective Date:</strong> August 9, 2026</p>
 
 </body>
 </html>

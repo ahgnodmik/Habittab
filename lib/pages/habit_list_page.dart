@@ -278,7 +278,7 @@ class _HabitListPageState extends State<HabitListPage>
               ValueListenableBuilder<Color>(
                 valueListenable: color,
                 builder:
-                    (_, c, __) => ColorPicker(
+                    (context, c, child) => ColorPicker(
                       selected: c,
                       onSelected: (picked) => color.value = picked,
                     ),

@@ -3,6 +3,7 @@
 
   "myHabits": "내 습관",
   "export": "내보내기",
+  "exportFailed": "내보내기 실패",
 
   "selectLanguage": "언어 선택",
   "languageUpdated": "언어가 변경되었습니다",

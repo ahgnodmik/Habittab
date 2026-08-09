@@ -10,6 +10,7 @@ import 'package:home_widget/home_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -61,7 +62,7 @@ class HabittabApp extends StatefulWidget {
 
 class _HabittabAppState extends State<HabittabApp> {
   bool _isDarkMode = false;
-  Locale _locale = const Locale('ko');
+  Locale? _locale;
 
   @override
   void initState() {
@@ -977,27 +978,34 @@ class _HabitListPageState extends State<HabitListPage>
     }
   }
 
+  static String _csvCell(String value) {
+    if (value.contains(',') || value.contains('"') || value.contains('\n')) {
+      return '"${value.replaceAll('"', '""')}"';
+    }
+    return value;
+  }
+
   void _exportData() async {
+    final l10n = context.l10n;
     final allDates = _habitChecks.keys.toList()..sort();
     final buffer = StringBuffer();
-    buffer.writeln('Date,${_habits.join(',')}');
+    buffer.writeln('Date,${_habits.map(_csvCell).join(',')}');
     for (final date in allDates) {
       final checks = _checksFor(date);
       buffer.writeln('$date,${checks.map((e) => e ? '1' : '0').join(',')}');
     }
     try {
-      final dir = await getApplicationDocumentsDirectory();
+      final dir = await getTemporaryDirectory();
       final file = File('${dir.path}/habits_export.csv');
       await file.writeAsString(buffer.toString());
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Exported to: ${file.path}')));
+      await SharePlus.instance.share(
+        ShareParams(files: [XFile(file.path)], subject: 'Habittab export'),
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Export failed!')));
+      ).showSnackBar(SnackBar(content: Text(l10n.exportFailed)));
     }
   }
 

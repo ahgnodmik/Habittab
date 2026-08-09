@@ -15,6 +15,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get export => 'Export';
 
   @override
+  String get exportFailed => 'Export failed';
+
+  @override
   String get selectLanguage => 'Select Language';
 
   @override

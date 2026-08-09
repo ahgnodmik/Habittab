@@ -3,6 +3,7 @@
 
   "myHabits": "My Habits",
   "export": "Export",
+  "exportFailed": "Export failed",
 
   "selectLanguage": "Select Language",
   "languageUpdated": "Language updated",

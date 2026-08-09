@@ -5,6 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:habittab/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+String _todayKey() {
+  final t = DateTime.now();
+  return '${t.year.toString().padLeft(4, '0')}-'
+      '${t.month.toString().padLeft(2, '0')}-'
+      '${t.day.toString().padLeft(2, '0')}';
+}
+
 void main() {
   const iosOnly = TargetPlatformVariant(<TargetPlatform>{TargetPlatform.iOS});
 
@@ -61,5 +68,33 @@ void main() {
     expect(find.text('Two'), findsOneWidget);
     expect(find.text('Three'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('tapping a habit persists its checked state', variant: iosOnly, (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(800, 1200));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    SharedPreferences.setMockInitialValues({
+      'habits': <String>['Alpha', 'Beta'],
+      'habit_colors': <String>[
+        const Color(0xFF0A6CF1).toARGB32().toString(),
+        const Color(0xFF0A6CF1).toARGB32().toString(),
+      ],
+      'habit_checks': json.encode(<String, List<bool>>{}),
+      'long_press_tip_shown': true,
+    });
+
+    await tester.pumpWidget(const HabittabApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Alpha'));
+    await tester.pumpAndSettle();
+
+    final prefs = await SharedPreferences.getInstance();
+    final decoded =
+        json.decode(prefs.getString('habit_checks')!) as Map<String, dynamic>;
+    final today = (decoded[_todayKey()] as List).cast<bool>();
+    expect(today, <bool>[true, false]);
   });
 }

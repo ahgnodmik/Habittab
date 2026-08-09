@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'Export'**
   String get export;
 
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportFailed;
+
   /// No description provided for @selectLanguage.
   ///
   /// In en, this message translates to:

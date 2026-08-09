@@ -8,6 +8,7 @@ import 'package:habittab/l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -17,6 +18,16 @@ extension L10nX on BuildContext {
 }
 
 final Color kPointColor = const Color(0xFF0A6CF1);
+const List<Color> kHabitPalette = [
+  Color(0xFF0A6CF1),
+  Color(0xFFEF4444),
+  Color(0xFFF59E0B),
+  Color(0xFF10B981),
+  Color(0xFF8B5CF6),
+  Color(0xFFEC4899),
+  Color(0xFF14B8A6),
+  Color(0xFF6B7280),
+];
 const String _habitsKey = 'habits';
 const String _habitColorsKey = 'habit_colors';
 const String _habitChecksKey = 'habit_checks';
@@ -169,10 +180,11 @@ class _HabitListPageState extends State<HabitListPage>
 
   Map<String, List<bool>> _habitChecks = {};
   DateTime _selectedDate = DateTime.now();
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
   bool _showLongPressTip = false;
   bool _showAdBanner = true;
   bool _isDarkMode = false;
+  String _appVersion = '';
 
   BannerAd? _bannerAd;
   bool _isBannerAdReady = false;
@@ -190,6 +202,7 @@ class _HabitListPageState extends State<HabitListPage>
     WidgetsBinding.instance.addObserver(this);
     _loadChecks();
     _loadTheme();
+    _loadAppVersion();
     _maybeShowLongPressTooltip();
     if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
       _loadBannerAd();
@@ -201,7 +214,7 @@ class _HabitListPageState extends State<HabitListPage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _loadChecks();
+      _loadChecks(persist: false);
     }
   }
 
@@ -211,7 +224,7 @@ class _HabitListPageState extends State<HabitListPage>
     return _normalizedChecks(_habitChecks[key], _habits.length);
   }
 
-  Future<void> _loadChecks() async {
+  Future<void> _loadChecks({bool persist = true}) async {
     final prefs = await SharedPreferences.getInstance();
     final savedHabits = prefs.getStringList(_habitsKey);
     final savedColors = prefs.getStringList(_habitColorsKey);
@@ -258,7 +271,7 @@ class _HabitListPageState extends State<HabitListPage>
       );
     });
 
-    await _saveHabitData();
+    if (persist) await _saveHabitData();
     await _updateHomeWidget();
   }
 
@@ -287,6 +300,11 @@ class _HabitListPageState extends State<HabitListPage>
     await prefs.setBool('is_dark_mode', isDarkMode);
   }
 
+  Future<void> _loadAppVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    if (mounted) setState(() => _appVersion = info.version);
+  }
+
   Future<void> _maybeShowLongPressTooltip() async {
     final prefs = await SharedPreferences.getInstance();
     final shown = prefs.getBool('long_press_tip_shown') ?? false;
@@ -309,22 +327,16 @@ class _HabitListPageState extends State<HabitListPage>
       builder:
           (ctx) => AlertDialog(
             title: Text(l10n.selectLanguage),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RadioListTile<String>(
-                  value: 'ko',
-                  groupValue: currentCode,
-                  title: const Text('한국어'),
-                  onChanged: (v) => Navigator.pop(ctx, 'ko'),
-                ),
-                RadioListTile<String>(
-                  value: 'en',
-                  groupValue: currentCode,
-                  title: const Text('English'),
-                  onChanged: (v) => Navigator.pop(ctx, 'en'),
-                ),
-              ],
+            content: RadioGroup<String>(
+              groupValue: currentCode,
+              onChanged: (v) => Navigator.pop(ctx, v),
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<String>(value: 'ko', title: Text('한국어')),
+                  RadioListTile<String>(value: 'en', title: Text('English')),
+                ],
+              ),
             ),
             actions: [
               TextButton(
@@ -350,22 +362,19 @@ class _HabitListPageState extends State<HabitListPage>
       builder:
           (ctx) => AlertDialog(
             title: Text(l10n.selectTheme),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RadioListTile<bool>(
-                  value: false,
-                  groupValue: _isDarkMode,
-                  title: Text(l10n.lightMode),
-                  onChanged: (v) => Navigator.pop(ctx, false),
-                ),
-                RadioListTile<bool>(
-                  value: true,
-                  groupValue: _isDarkMode,
-                  title: Text(l10n.darkMode),
-                  onChanged: (v) => Navigator.pop(ctx, true),
-                ),
-              ],
+            content: RadioGroup<bool>(
+              groupValue: _isDarkMode,
+              onChanged: (v) => Navigator.pop(ctx, v),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<bool>(
+                    value: false,
+                    title: Text(l10n.lightMode),
+                  ),
+                  RadioListTile<bool>(value: true, title: Text(l10n.darkMode)),
+                ],
+              ),
             ),
             actions: [
               TextButton(
@@ -408,7 +417,7 @@ class _HabitListPageState extends State<HabitListPage>
     showAboutDialog(
       context: context,
       applicationName: 'Habittab',
-      applicationVersion: '1.1.2',
+      applicationVersion: _appVersion,
       applicationLegalese: '© 2024 Habittab. All rights reserved.',
       children: [
         const SizedBox(height: 8),
@@ -421,7 +430,7 @@ class _HabitListPageState extends State<HabitListPage>
     showLicensePage(
       context: context,
       applicationName: 'Habittab',
-      applicationVersion: '1.1.2',
+      applicationVersion: _appVersion,
       applicationLegalese: '© 2024 Habittab',
     );
   }
@@ -436,7 +445,7 @@ class _HabitListPageState extends State<HabitListPage>
         final textColor =
             Theme.of(ctx).textTheme.bodyLarge?.color ?? Colors.black;
         return AlertDialog(
-          backgroundColor: Theme.of(ctx).dialogBackgroundColor,
+          backgroundColor: Theme.of(ctx).dialogTheme.backgroundColor,
           title: Text(l10n.addHabit, style: TextStyle(color: textColor)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -449,27 +458,19 @@ class _HabitListPageState extends State<HabitListPage>
                   hintStyle: TextStyle(color: textColor.withValues(alpha: 0.6)),
                 ),
               ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Text(l10n.color, style: TextStyle(color: textColor)),
-                  const SizedBox(width: 12),
-                  ValueListenableBuilder<Color>(
-                    valueListenable: color,
-                    builder:
-                        (_, c, __) => GestureDetector(
-                          onTap: () => color.value = const Color(0xFF0A6CF1),
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: c,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                  ),
-                ],
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(l10n.color, style: TextStyle(color: textColor)),
+              ),
+              const SizedBox(height: 10),
+              ValueListenableBuilder<Color>(
+                valueListenable: color,
+                builder:
+                    (_, c, __) => _ColorPicker(
+                      selected: c,
+                      onSelected: (picked) => color.value = picked,
+                    ),
               ),
             ],
           ),
@@ -514,7 +515,7 @@ class _HabitListPageState extends State<HabitListPage>
         final textColor =
             Theme.of(ctx).textTheme.bodyLarge?.color ?? Colors.black;
         return AlertDialog(
-          backgroundColor: Theme.of(ctx).dialogBackgroundColor,
+          backgroundColor: Theme.of(ctx).dialogTheme.backgroundColor,
           title: Text(
             l10n.selectHabitToEdit,
             style: TextStyle(color: textColor),
@@ -645,48 +646,42 @@ class _HabitListPageState extends State<HabitListPage>
     final result = await showDialog<bool>(
       context: context,
       builder:
-          (ctx) => AlertDialog(
-            title: Text(l10n.editHabitTitle),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(hintText: l10n.habitName),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Text(l10n.color),
-                    const SizedBox(width: 12),
-                    GestureDetector(
-                      onTap: () {
-                        selectedColor = const Color(0xFF0A6CF1);
-                        setState(() {});
-                      },
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: selectedColor,
-                          shape: BoxShape.circle,
-                        ),
+          (ctx) => StatefulBuilder(
+            builder:
+                (ctx, setDialogState) => AlertDialog(
+                  title: Text(l10n.editHabitTitle),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: nameController,
+                        decoration: InputDecoration(hintText: l10n.habitName),
                       ),
+                      const SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(l10n.color),
+                      ),
+                      const SizedBox(height: 10),
+                      _ColorPicker(
+                        selected: selectedColor,
+                        onSelected:
+                            (picked) =>
+                                setDialogState(() => selectedColor = picked),
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx, false),
+                      child: Text(l10n.cancel),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx, true),
+                      child: Text(l10n.save),
                     ),
                   ],
                 ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(l10n.cancel),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, true),
-                child: Text(l10n.save),
-              ),
-            ],
           ),
     );
     if (result == true) {
@@ -1073,7 +1068,7 @@ class _HabitListPageState extends State<HabitListPage>
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Version 1.1.2',
+                      _appVersion.isEmpty ? 'Habittab' : 'Version $_appVersion',
                       style: TextStyle(color: Colors.grey[700]),
                     ),
                     const SizedBox(height: 4),
@@ -1779,6 +1774,45 @@ class _Badge {
   final String subtitle;
   final IconData icon;
   const _Badge(this.title, this.subtitle, this.icon);
+}
+
+class _ColorPicker extends StatelessWidget {
+  final Color selected;
+  final ValueChanged<Color> onSelected;
+  const _ColorPicker({required this.selected, required this.onSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 10,
+      runSpacing: 10,
+      children: [
+        for (final c in kHabitPalette)
+          GestureDetector(
+            onTap: () => onSelected(c),
+            child: Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: c,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color:
+                      c.toARGB32() == selected.toARGB32()
+                          ? Colors.black
+                          : Colors.transparent,
+                  width: 2,
+                ),
+              ),
+              child:
+                  c.toARGB32() == selected.toARGB32()
+                      ? const Icon(Icons.check, size: 16, color: Colors.white)
+                      : null,
+            ),
+          ),
+      ],
+    );
+  }
 }
 
 void _showBadgeDetail(BuildContext context, _Badge badge) {

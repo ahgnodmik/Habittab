@@ -907,6 +907,10 @@ class _HabitListPageState extends State<HabitListPage>
     final l10n = context.l10n;
     final checkedToday = _checkedFor(_dateKey);
     return Scaffold(
+      // Keep the fixed calendar/handle/banner from overflowing when a dialog's
+      // soft keyboard would otherwise shrink the body. Text entry lives in
+      // dialogs that float above, so the list itself needn't resize.
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(l10n.myHabits),
         actions: [

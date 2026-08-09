@@ -36,13 +36,15 @@ class _HabitListPageState extends State<HabitListPage>
   Map<String, Set<String>> _checked = {};
 
   DateTime _selectedDate = DateTime.now();
-  final CalendarFormat _calendarFormat = CalendarFormat.month;
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  final ScrollController _listController = ScrollController();
   bool _showLongPressTip = false;
   bool _showAdBanner = true;
   bool _isDarkMode = false;
   String _appVersion = '';
 
   BannerAd? _bannerAd;
+  Widget? _adWidget;
   bool _isBannerAdReady = false;
 
   static const String _releaseBannerAdUnitId =
@@ -796,6 +798,7 @@ class _HabitListPageState extends State<HabitListPage>
 
   void _loadBannerAd() {
     _bannerAd?.dispose();
+    _adWidget = null;
     _bannerAd = BannerAd(
       adUnitId: _bannerAdUnitId,
       request: const AdRequest(),
@@ -806,10 +809,20 @@ class _HabitListPageState extends State<HabitListPage>
             ad.dispose();
             return;
           }
-          setState(() => _isBannerAdReady = true);
+          setState(() {
+            // Cache a single AdWidget so rebuilds reuse the same element
+            // instead of re-inserting the ad ("already in the widget tree").
+            _adWidget = AdWidget(ad: ad as BannerAd);
+            _isBannerAdReady = true;
+          });
         },
         onAdFailedToLoad: (ad, err) {
-          if (mounted) setState(() => _isBannerAdReady = false);
+          if (mounted) {
+            setState(() {
+              _isBannerAdReady = false;
+              _adWidget = null;
+            });
+          }
           ad.dispose();
           Future.delayed(const Duration(seconds: 5), () {
             if (mounted && _showAdBanner) _loadBannerAd();
@@ -824,7 +837,46 @@ class _HabitListPageState extends State<HabitListPage>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _bannerAd?.dispose();
+    _listController.dispose();
     super.dispose();
+  }
+
+  /// Collapse/expand handle under the calendar. Toggles between the full
+  /// month view and a compact single-week view.
+  Widget _buildCalendarHandle() {
+    final expanded = _calendarFormat == CalendarFormat.month;
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _calendarFormat =
+              expanded ? CalendarFormat.week : CalendarFormat.month;
+        });
+      },
+      child: SizedBox(
+        height: 24,
+        child: Center(
+          child: Icon(
+            expanded ? Icons.expand_less : Icons.expand_more,
+            color: kPointColor,
+            size: 22,
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Opens a date picker so the header acts as a month/year navigator.
+  Future<void> _pickMonth() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+    );
+    if (picked != null && mounted) {
+      setState(() => _selectedDate = picked);
+    }
   }
 
   @override
@@ -1010,11 +1062,21 @@ class _HabitListPageState extends State<HabitListPage>
                   firstDay: DateTime.now().subtract(const Duration(days: 365)),
                   lastDay: DateTime.now().add(const Duration(days: 365)),
                   focusedDay: _selectedDate,
+                  rowHeight: 42,
+                  daysOfWeekHeight: 18,
                   selectedDayPredicate: (day) => isSameDay(day, _selectedDate),
                   onDaySelected: (selectedDay, focusedDay) {
                     setState(() => _selectedDate = selectedDay);
                   },
                   calendarFormat: _calendarFormat,
+                  availableCalendarFormats: const {
+                    CalendarFormat.month: 'Month',
+                    CalendarFormat.week: 'Week',
+                  },
+                  onFormatChanged: (format) {
+                    setState(() => _calendarFormat = format);
+                  },
+                  onHeaderTapped: (_) => _pickMonth(),
                   headerStyle: HeaderStyle(
                     formatButtonVisible: false,
                     titleCentered: true,
@@ -1043,7 +1105,7 @@ class _HabitListPageState extends State<HabitListPage>
                           ].take(4).toList();
                       if (colors.isEmpty) return null;
                       return Padding(
-                        padding: const EdgeInsets.only(top: 28),
+                        padding: const EdgeInsets.only(top: 24),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -1066,7 +1128,7 @@ class _HabitListPageState extends State<HabitListPage>
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              _buildCalendarHandle(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Container(
@@ -1100,31 +1162,36 @@ class _HabitListPageState extends State<HabitListPage>
               ),
               const SizedBox(height: 8),
               Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.only(
-                    bottom:
-                        _showAdBanner
-                            ? 58 + MediaQuery.of(context).padding.bottom
-                            : MediaQuery.of(context).padding.bottom,
-                  ),
-                  itemCount: _habits.length,
-                  itemBuilder: (context, index) {
-                    final checked = checkedToday.contains(_habits[index].id);
-                    return Column(
-                      children: [
-                        _buildHabitItem(index: index, checked: checked),
-                        if (index == _habits.length - 1)
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 6, 12, 16),
-                            child: OutlinedButton.icon(
-                              onPressed: _addHabit,
-                              icon: const Icon(Icons.add),
-                              label: Text(l10n.addHabit),
+                child: Scrollbar(
+                  controller: _listController,
+                  thumbVisibility: true,
+                  child: ListView.builder(
+                    controller: _listController,
+                    padding: EdgeInsets.only(
+                      bottom:
+                          _showAdBanner
+                              ? 58 + MediaQuery.of(context).padding.bottom
+                              : MediaQuery.of(context).padding.bottom,
+                    ),
+                    itemCount: _habits.length,
+                    itemBuilder: (context, index) {
+                      final checked = checkedToday.contains(_habits[index].id);
+                      return Column(
+                        children: [
+                          _buildHabitItem(index: index, checked: checked),
+                          if (index == _habits.length - 1)
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 6, 12, 16),
+                              child: OutlinedButton.icon(
+                                onPressed: _addHabit,
+                                icon: const Icon(Icons.add),
+                                label: Text(l10n.addHabit),
+                              ),
                             ),
-                          ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
@@ -1190,8 +1257,8 @@ class _HabitListPageState extends State<HabitListPage>
                       child: Container(
                         margin: const EdgeInsets.all(4),
                         child:
-                            _isBannerAdReady && _bannerAd != null
-                                ? AdWidget(ad: _bannerAd!)
+                            _isBannerAdReady && _adWidget != null
+                                ? _adWidget!
                                 : Container(
                                   height: 42,
                                   decoration: BoxDecoration(

@@ -841,57 +841,47 @@ class _HabitListPageState extends State<HabitListPage>
     super.dispose();
   }
 
-  /// Collapse/expand handle under the calendar. Toggles between the full
-  /// month view and a compact single-week view. Large full-width tap target.
+  /// Collapse/expand control under the calendar. Rendered as a clearly
+  /// separated pill button so it never blends into the calendar day cells
+  /// (which previously caused mis-taps when collapsed). Toggles month <-> week.
   Widget _buildCalendarHandle() {
     final l10n = context.l10n;
     final expanded = _calendarFormat == CalendarFormat.month;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            _calendarFormat =
-                expanded ? CalendarFormat.week : CalendarFormat.month;
-          });
-        },
-        child: Container(
-          height: 48,
-          width: double.infinity,
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: kPointColor.withValues(alpha: 0.4),
-                  borderRadius: BorderRadius.circular(2),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      child: Material(
+        color: kPointColor.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: () {
+            setState(() {
+              _calendarFormat =
+                  expanded ? CalendarFormat.week : CalendarFormat.month;
+            });
+          },
+          child: SizedBox(
+            height: 44,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  expanded ? Icons.expand_less : Icons.expand_more,
+                  color: kPointColor,
+                  size: 22,
                 ),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    expanded ? Icons.expand_less : Icons.expand_more,
+                const SizedBox(width: 6),
+                Text(
+                  expanded ? l10n.collapseCalendar : l10n.expandCalendar,
+                  style: TextStyle(
                     color: kPointColor,
-                    size: 22,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(width: 4),
-                  Text(
-                    expanded ? l10n.collapseCalendar : l10n.expandCalendar,
-                    style: TextStyle(
-                      color: kPointColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
